@@ -6,9 +6,7 @@ import USERSCH from '../schemas/users';
 import { signer } from '../library/signer';
 
 const app = Router();
-
 const CLIENT_ID = '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
-
 const client = new OAuth2Client(CLIENT_ID);
 
 const authenticateWithGoogle = async (idToken) => {
