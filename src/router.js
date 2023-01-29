@@ -4,6 +4,7 @@ import { AppVersion, getUpdateLogs } from './appVersion';
 import AuthController from './controllers/auth';
 import { AuthMiddleware } from './controllers/utils';
 import UserCtrls from './controllers/users';
+import shortenedAll from './controllers/shortened_all';
 
 const rtr = Router();
 
@@ -19,6 +20,9 @@ rtr.use('/api/v1', AuthMiddleware);
 
 // --------------- users -------------------
 rtr.use('/api/v1/users', UserCtrls);
+
+// --------------- users -------------------
+rtr.use('/api/v1/short', shortenedAll);
 
 // --------------- shortened -------------------
 rtr.use('/', shortenedCtrls);

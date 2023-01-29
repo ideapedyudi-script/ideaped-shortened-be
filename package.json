@@ -30,6 +30,7 @@
     "mongoose-autopopulate": "^0.16.1",
     "numeral": "^2.0.6",
     "passport": "^0.6.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "reduce-sum": "^1.0.1"
   }
 }

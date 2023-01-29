@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { CtrlHandler } from './utils';
 import schema from '../schemas/shortened';
+import schemaUrl from '../schemas/short';
 import crypto from 'crypto';
 import { vdtShortened } from '../validation/shortened'
+import m from 'mongoose';
 
 const rtr = Router();
 
@@ -23,6 +25,10 @@ const getIpAddr = (req) => {
     return parseIps(headers['x-forwarded-for']) || parseIps(ips) || ip || hostname;
 }
 
+const countClick = async (id, click) => {
+    return await schemaUrl.findOneAndUpdate({ _id: m.Types.ObjectId(id) }, { $set: { click: click + 1 } });
+}
+
 rtr.post('/shortened', (req, res) => {
     CtrlHandler(req, res, async (body) => {
         await vdtShortened(body)
@@ -36,11 +42,17 @@ rtr.post('/shortened', (req, res) => {
 rtr.get('/:id', (req, res) => {
     CtrlHandler(req, res, async () => {
         const { id } = req.params;
-        const key = await schema.findOne({ key: id })
+        const key = await schemaUrl.findOne({ key: id })
         if (key) {
+            countClick(key?._id, key?.click)
             return res.redirect(301, key.redirect_uri);
         } else {
-            return res.redirect(301, process.env.DEFAULT_URL);
+            const key = await schema.findOne({ key: id })
+            if (key) {
+                return res.redirect(301, key.redirect_uri);
+            } else {
+                return res.redirect(301, process.env.DEFAULT_URL);
+            }
         }
     })
 });
