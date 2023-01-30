@@ -55,7 +55,6 @@ rtr.get('/total_url', (req, res) => {
 rtr.delete('/delete_short/:id', (req, res) => {
     CtrlHandler(req, res, async () => {
         const key = req.params.id;
-        console.log(key)
         const result = await schema.findOneAndRemove({ key });
         return result;
     })
