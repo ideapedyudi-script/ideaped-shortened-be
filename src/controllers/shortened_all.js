@@ -44,7 +44,7 @@ rtr.post('/add', (req, res) => {
 });
 
 rtr.get('/total_url', (req, res) => {
-    CtrlHandler(req, res, async (body) => {
+    CtrlHandler(req, res, async () => {
         const { _id } = res.locals.udata;
         const result = await schema.find({ user: _id });
         let totalClick = reduceSum(result, 'click')
